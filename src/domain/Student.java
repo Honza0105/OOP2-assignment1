@@ -12,6 +12,8 @@ public class Student implements Comparable<Student>{
 	private Instrument instrument;
 	private BigDecimal offer;
 	private Experience experience;
+
+	private int level;
 	
 	public Student(String name, Instrument instrument) {
 		super();
@@ -19,6 +21,7 @@ public class Student implements Comparable<Student>{
 		this.instrument = instrument;
 		this.offer = BigDecimal.ZERO;
 		this.experience = NONE;
+		this.level = this.experience.getLevel();
 	}
 	
 	public Student(String name, Instrument instrument, BigDecimal offer) {
@@ -27,15 +30,20 @@ public class Student implements Comparable<Student>{
 		this.instrument = instrument;
 		this.offer = offer;
 		this.experience = NONE;
+		this.level = this.experience.getLevel();
 	}
-	
+
+	public String getName() {
+		return name;
+	}
+
 	public Student(String name, Instrument instrument, Experience experience) {
 		super();
 		this.name = name;
 		this.instrument = instrument;
 		this.offer = BigDecimal.ZERO;
-		this.experience = NONE;
 		this.experience = experience;
+		this.level = this.experience.getLevel();
 	}
 	
 	public Student(String name, Instrument instrument, BigDecimal offer, Experience experience) {
@@ -43,7 +51,6 @@ public class Student implements Comparable<Student>{
 		this.name = name;
 		this.instrument = instrument;
 		this.offer = offer;
-		this.experience = NONE;
 		this.experience = experience;
 	}
 
@@ -55,14 +62,6 @@ public class Student implements Comparable<Student>{
 		return Comparator.comparing(o -> o.experience);
 	}
 
-	public Comparator<Student> compareExperience2() {
-		return new Comparator<Student>() {
-			@Override
-			public int compare(Student o1, Student o2) {
-				return o1.compareTo(o2);
-			}
-		};
-	}
 
 
 	public Instrument getInstrument() {
@@ -87,18 +86,25 @@ public class Student implements Comparable<Student>{
 
 	public void setExperience(Experience experience) {
 		this.experience = experience;
+		this.level = experience.getLevel();
 	}
 
 	@Override
 	public String toString() {
-		return "Student [name=" + name + ", instrument=" + instrument + "]";
+		return
+				"{name='" + name + '\'' +
+				", experience=" + experience.ordinal() +
+				'}';
 	}
+
 
 	@Override
 	public int compareTo(Student o) {
-		return -Integer.compare(this.experience.ordinal(),o.experience.ordinal());
+		return o.experience.ordinal() - this.experience.ordinal();
 	}
 
-
+	public int getLevel() {
+		return level;
+	}
 
 }

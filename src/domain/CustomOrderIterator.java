@@ -3,27 +3,42 @@ package domain;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.PriorityQueue;
 
 public class CustomOrderIterator<T> implements Iterator<T> {
-    private ReorderingPriorityQueue<T> priorityQueue;
+    private Iterator<T> iterator;
+    private ReorderingPriorityQueue<T> queue;
+    private T current;
     private Comparator<T> comparator;
 
-    public CustomOrderIterator(ReorderingPriorityQueue<T> priorityQueue, Comparator<T> comparator) {
-        this.priorityQueue = priorityQueue;
-        this.comparator = comparator;
+    public CustomOrderIterator(ReorderingPriorityQueue<T> queue) {
+        this.queue = queue;
+        this.iterator = queue.priorityQueue.iterator();
     }
+
+    public CustomOrderIterator(Iterator<T> iterator) {
+        this.iterator = iterator;
+    }
+
 
     @Override
     public boolean hasNext() {
-        return !priorityQueue.isEmpty();
+        return iterator.hasNext();
     }
 
     @Override
     public T next() {
-        if (!hasNext()){
+        if (!hasNext()) {
             throw new NoSuchElementException();
         }
-        return priorityQueue.poll();
+        current = iterator.next();
+        return current;
+    }
+
+
+
+    @Override
+    public void remove() {
+        iterator.remove();
     }
 }
+

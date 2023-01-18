@@ -1,10 +1,9 @@
 package app;
 
-import domain.Experience;
-import domain.ReorderingPriorityQueue;
-import domain.Student;
-import domain.Teacher;
+import domain.*;
 import instruments.*;
+
+import java.util.*;
 
 public class School {
 
@@ -36,19 +35,19 @@ public class School {
 		alice.addInstrument(soprano);
 		alice.addInstrument(tenor);
 
-		ReorderingPriorityQueue<Student> waitList = new ReorderingPriorityQueue<>(jan.compareExperience2());
-		jan.setExperience(Experience.HIGH);
-		fatima.setExperience(Experience.EXTREME);
-		piet.setExperience(Experience.LOW);
+		ReorderingPriorityQueue<Student> waitList = new ReorderingPriorityQueue<>(new ExperienceComparator());
+		jan.setExperience(Experience.EXTREME);
+		fatima.setExperience(Experience.LOW);
+		piet.setExperience(Experience.PRO);
 		imane.setExperience(Experience.MEDIUM);
-		waitList.add(imane);
-		waitList.add(jan);
-		waitList.add(piet);
-		waitList.add(fatima);
-		System.out.println(fatima.compareTo(jan));
-	    //No the order is still wrong I need to work on that, Idk
-		System.out.println(waitList);
-//		waitList.setComparator(jan.compareOffer());
-//		System.out.println(waitList);
+		mary.setExperience(Experience.HIGH);
+		waitList.offer(mary);
+		waitList.offer(imane);
+		waitList.offer(jan);
+		waitList.offer(fatima);
+		waitList.offer(piet);
+
+
+
 	}
 }

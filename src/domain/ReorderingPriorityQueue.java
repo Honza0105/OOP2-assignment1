@@ -3,7 +3,7 @@ package domain;
 import java.util.*;
 
 public class ReorderingPriorityQueue<T> implements Queue<T>{
-    private PriorityQueue<T> priorityQueue;
+    PriorityQueue<T> priorityQueue;
     private Comparator<T> comparator;
 
     public ReorderingPriorityQueue() {
@@ -12,6 +12,7 @@ public class ReorderingPriorityQueue<T> implements Queue<T>{
 
     @Override
     public String toString() {
+        reorder();
         return "ReorderingPriorityQueue{" +
                 "priorityQueue=" + priorityQueue +
                 ", comparator=" + comparator +
@@ -25,11 +26,9 @@ public class ReorderingPriorityQueue<T> implements Queue<T>{
 
     public void setComparator(Comparator<T> comparator){
        this.comparator = comparator;
-       CustomOrderIterator<T> iterator = new CustomOrderIterator<>(this,comparator);
-       clear();
-       while (iterator.hasNext()) {
-           add(iterator.next());
-       }
+        PriorityQueue<T> newQueue = new PriorityQueue<>(comparator);
+        newQueue.addAll(priorityQueue);
+        priorityQueue = newQueue;
     }
     @Override
     public int size() {
@@ -48,7 +47,8 @@ public class ReorderingPriorityQueue<T> implements Queue<T>{
 
     @Override
     public Iterator<T> iterator() {
-        return priorityQueue.iterator();
+        reorder();
+        return new CustomOrderIterator<T>(this.priorityQueue.iterator());
     }
 
     @Override
@@ -64,6 +64,7 @@ public class ReorderingPriorityQueue<T> implements Queue<T>{
 
     @Override
     public boolean add(T o) {
+        reorder();
         return priorityQueue.add(o);
     }
 
@@ -101,11 +102,13 @@ public class ReorderingPriorityQueue<T> implements Queue<T>{
 
     @Override
     public boolean offer(T o) {
+        reorder();
         return priorityQueue.offer(o);
     }
 
     @Override
     public T remove() {
+        reorder();
         return priorityQueue.remove();
     }
 
@@ -123,4 +126,24 @@ public class ReorderingPriorityQueue<T> implements Queue<T>{
     public T peek() {
         return priorityQueue.peek();
     }
+
+    public Comparator<T> getComparator() {
+        return this.comparator;
+    }
+
+    public void reorder() {
+        // Create a temporary list to hold the elements
+        List<T> tempList = new ArrayList<>();
+        // Keep polling elements from the queue until it's empty
+        while (!isEmpty()) {
+            tempList.add(poll());
+        }
+        // Sort the elements in the temporary list
+        tempList.sort(comparator);
+        // Add the elements back to the queue
+        for (T element : tempList) {
+            add(element);
+        }
+    }
+
 }
