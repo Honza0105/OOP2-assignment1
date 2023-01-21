@@ -3,21 +3,21 @@ package domain;
 import instruments.Instrument;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
+
 
 public class Schedule {
 	private static BigDecimal basePrice = new BigDecimal("10.0");
 	private int year;
-	private Queue<Student> waitList;
-	private Map<Teacher,Student> students;
+	private ReorderingPriorityQueue<Student> waitList;
+	private Map<Teacher<Instrument>, Set<Student>> students;
 
 	public Schedule(int year) {
 		this.year = year;
-		this.waitList = new ReorderingPriorityQueue<>();
+		this.waitList = new ReorderingPriorityQueue<>(new ExperienceComparator());
 		this.students = new HashMap<>();
 	}
+
 
 	@Override
 	public String toString() {
@@ -45,17 +45,27 @@ public class Schedule {
 	}
 
 	public void addToList(Student student) {
-		waitList.add(student);
+		waitList.offer(student);
 	}
 	
 	public void withdrawFromList(Student student) { // Implement
 		waitList.remove(student);
 	}
 
-	public void addStudent(Teacher<Instrument> teacher, Student student) { // Make generic and implement
-		this.students.put(teacher,student);
+	public boolean addStudent(Teacher<Instrument> teacher, Student student) {
+		Set<Student> studentSet = students.get(teacher);
+		if (studentSet==null){
+			studentSet = new HashSet<>();
+		}
+
+		if (studentSet.size()<teacher.getMaxStudents() && teacher.teaches(student.getInstrument())) {
+			studentSet.add(student);
+			this.students.put(teacher, studentSet);
+			return true;
+		}
+		return false;
 	}
-	
+
 	public void addTeacher(Teacher<Instrument> teacher) { // Make generic and implement
 		this.students.put(teacher, null);
 	}
@@ -66,5 +76,23 @@ public class Schedule {
 	
 	public void endOfYear() { // Implement
 		this.students.clear();
+	}
+	public void changeComparator(Comparator<Student> studentComparator){
+		waitList.setComparator(studentComparator);
+	}
+
+	public void matching(){
+		for (Student student: waitList
+			 ) {
+			inner:
+			for (Teacher teacher: students.keySet()
+				 ) {
+				if (addStudent(teacher,student)){
+					withdrawFromList(student);
+					System.out.println("I am fine lol");
+					break inner;
+				}
+			}
+		}
 	}
 }

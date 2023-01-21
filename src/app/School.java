@@ -7,23 +7,31 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class School {
-	private static ReorderingPriorityQueue<Student> waitList = new ReorderingPriorityQueue<>(new ExperienceComparator());
-	private static ArrayList<Teacher<Instrument>> teacherArrayList = new ArrayList<>();
-	private static Schedule schedule = new Schedule(2000);
+//	private static ReorderingPriorityQueue<Student> waitList = new ReorderingPriorityQueue<>(new ExperienceComparator());
+	private static ArrayList<Student> students = new ArrayList<>();
+	private static ArrayList<Teacher<Instrument>> teachers = new ArrayList<>();
 	public static boolean addStudentToWaitList(Student student){
-		return waitList.offer(student);
+		return students.add(student);
 	}
 	public static boolean addTeachersToList(Teacher<Instrument> teacher){
-		return teacherArrayList.add(teacher);
+		return teachers.add(teacher);
 	}
 
-	public static void createSchedule(int year){
-		schedule.endOfYear();
-		schedule.setYear(year);
+	public static Schedule createSchedule(int year){
+		Schedule schedule = new Schedule(year);
+		for (Student student: students
+			 ) {
+			schedule.addToList(student);
+		}
+		addTeachersToSchedule(schedule);
+		System.out.println();
+		schedule.matching();
+
+		return schedule;
 	}
 
-	public static void addTeachersToSchedule(){
-		for (Teacher<Instrument> teacher: teacherArrayList
+	public static void addTeachersToSchedule(Schedule schedule){
+		for (Teacher<Instrument> teacher: teachers
 			 ) {
 			schedule.addTeacher(teacher);
 		}
@@ -59,6 +67,7 @@ public class School {
 		Teacher<Instrument> bob = new Teacher<>("Bob", 6); // Make generic
 		bob.addInstrument(fentrop);
 		bob.addInstrument(steelString);
+		bob.addInstrument(classicalGuitar);
 		
 		Teacher<Instrument> alice = new Teacher<>("Alice", 12); // Make generic
 		alice.addInstrument(garklein);
@@ -89,8 +98,8 @@ public class School {
 //		System.out.println(waitList);
 		addTeachersToList(bob);
 		addTeachersToList(alice);
-		System.out.println(teacherArrayList);
-		createSchedule(2023);
+		System.out.println(teachers);
+		Schedule schedule = createSchedule(2023);
 		System.out.println(schedule);
 	}
 
