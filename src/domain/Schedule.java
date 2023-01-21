@@ -82,14 +82,13 @@ public class Schedule {
 	}
 
 	public void matching(){
-		for (Student student: waitList
+		for (Student student: new HashSet<>(waitList)
 			 ) {
 			inner:
 			for (Teacher teacher: students.keySet()
 				 ) {
 				if (addStudent(teacher,student)){
 					withdrawFromList(student);
-					System.out.println("I am fine lol");
 					break inner;
 				}
 			}

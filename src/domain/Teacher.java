@@ -24,7 +24,7 @@ public class Teacher<T extends Instrument> {
 		return "Teacher{" +
 				"name='" + name + '\'' +
 				", maxStudents=" + maxStudents +
-				", instruments=" + instruments +
+
 				'}';
 	}
 

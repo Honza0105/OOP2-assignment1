@@ -60,7 +60,7 @@ public class School {
 		//Students who offer
 		Student piet = new Student("Piet", steelString,new BigDecimal("12"), Experience.HIGH);
 		Student rory = new Student("Rory", bass,new BigDecimal("10"),Experience.MEDIUM);
-		Student alex = new Student("Alex", contrabass, new BigDecimal("50"),Experience.LOW);
+		Student alex = new Student("Alex", garklein, new BigDecimal("50"),Experience.LOW);
 		Student erik = new Student("Erik", classicalGuitar, new BigDecimal("10"),Experience.HIGH);
 
 		
