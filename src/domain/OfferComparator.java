@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 public class OfferComparator implements Comparator<Student> {
     @Override
-    public int compare(Student o1, Student o2) {
-        return o1.getOffer().compareTo(o1.getOffer());
+    public int compare(Student s1, Student s2) {
+        return s2.getOffer().compareTo(s1.getOffer());
     }
 }

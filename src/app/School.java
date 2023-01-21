@@ -3,9 +3,12 @@ package app;
 import domain.*;
 import instruments.*;
 
-import java.util.*;
+import java.math.BigDecimal;
 
 public class School {
+	private static void studentToWaitlist(Student student){
+
+	}
 
 	public static void main(String[] args) {	
 		StringedInstrument piano = new StringedInstrument("Piano", 2, 164, 3);
@@ -46,8 +49,13 @@ public class School {
 		waitList.offer(jan);
 		waitList.offer(fatima);
 		waitList.offer(piet);
-
-
-
+		System.out.println(waitList);
+		waitList.setComparator(new OfferComparator());
+		System.out.println(waitList);
+		piet.setOffer(new BigDecimal("12"));
+		System.out.println(waitList);
+		waitList.setComparator(new ExperienceComparator());
+		System.out.println(waitList);
 	}
+
 }

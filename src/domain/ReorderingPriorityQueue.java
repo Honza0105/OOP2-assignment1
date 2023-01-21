@@ -3,8 +3,10 @@ package domain;
 import java.util.*;
 
 public class ReorderingPriorityQueue<T> implements Queue<T>{
-    PriorityQueue<T> priorityQueue;
+    protected PriorityQueue<T> priorityQueue;
     private Comparator<T> comparator;
+
+
 
     public ReorderingPriorityQueue() {
         this.priorityQueue = new PriorityQueue<>();

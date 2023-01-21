@@ -94,6 +94,7 @@ public class Student implements Comparable<Student>{
 		return
 				"{name='" + name + '\'' +
 				", experience=" + experience.ordinal() +
+						", offer=" + offer +
 				'}';
 	}
 
