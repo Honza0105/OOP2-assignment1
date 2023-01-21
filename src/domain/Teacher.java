@@ -19,6 +19,15 @@ public class Teacher<T extends Instrument> {
 		this.instruments = new HashSet<>();
 	}
 
+	@Override
+	public String toString() {
+		return "Teacher{" +
+				"name='" + name + '\'' +
+				", maxStudents=" + maxStudents +
+				", instruments=" + instruments +
+				'}';
+	}
+
 	public String getName() {
 		return name;
 	}

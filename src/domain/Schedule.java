@@ -1,12 +1,11 @@
 package domain;
 
+import instruments.Instrument;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
-import instruments.Instrument;
 
 public class Schedule {
 	private static BigDecimal basePrice = new BigDecimal("10.0");
@@ -16,8 +15,17 @@ public class Schedule {
 
 	public Schedule(int year) {
 		this.year = year;
-		this.waitList = new ConcurrentLinkedQueue<>();
+		this.waitList = new ReorderingPriorityQueue<>();
 		this.students = new HashMap<>();
+	}
+
+	@Override
+	public String toString() {
+		return "Schedule{" +
+				"year=" + year +
+				", waitList=" + waitList +
+				", students=" + students +
+				'}';
 	}
 
 	public static BigDecimal getBasePrice() {

@@ -12,6 +12,7 @@ public abstract class Instrument {
 		setBaseOctave(baseOctave);
 	}
 
+
 	public String getName() {
 		return name;
 	}
