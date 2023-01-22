@@ -6,12 +6,8 @@ import java.util.NoSuchElementException;
 
 public class CustomOrderIterator<T> implements Iterator<T> {
     private Iterator<T> iterator;
-    private ReorderingPriorityQueue<T> queue;
-    private T current;
-    private Comparator<T> comparator;
 
     public CustomOrderIterator(ReorderingPriorityQueue<T> queue) {
-        this.queue = queue;
         this.iterator = queue.priorityQueue.iterator();
     }
 
@@ -30,8 +26,7 @@ public class CustomOrderIterator<T> implements Iterator<T> {
         if (!hasNext()) {
             throw new NoSuchElementException();
         }
-        current = iterator.next();
-        return current;
+        return iterator.next();
     }
 
 

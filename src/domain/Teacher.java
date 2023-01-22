@@ -48,8 +48,8 @@ public class Teacher<T extends Instrument> {
 		return instruments;
 	}
 
-	public boolean addInstrument(T instrument) {
-		return instruments.add(instrument);
+	public void addInstrument(T instrument) {
+		instruments.add(instrument);
 	}
 	
 	public boolean removeInstrument(T instrument) {

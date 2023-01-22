@@ -5,22 +5,36 @@ import instruments.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class School {
 //	private static ReorderingPriorityQueue<Student> waitList = new ReorderingPriorityQueue<>(new ExperienceComparator());
 	private static ArrayList<Student> students = new ArrayList<>();
 	private static ArrayList<Teacher<Instrument>> teachers = new ArrayList<>();
-	public static boolean addStudentToWaitList(Student student){
-		return students.add(student);
+	public static void addStudentToWaitList(Student student){
+		students.add(student);
 	}
-	public static boolean addTeachersToList(Teacher<Instrument> teacher){
-		return teachers.add(teacher);
+	public static void addTeachersToList(Teacher<Instrument> teacher){
+		teachers.add(teacher);
 	}
 
 	public static Schedule createSchedule(int year){
 		Schedule schedule = new Schedule(year);
 		for (Student student: students
 			 ) {
+			schedule.addToList(student);
+		}
+		addTeachersToSchedule(schedule);
+		System.out.println();
+		schedule.matching();
+
+		return schedule;
+	}
+
+	public static Schedule createSchedule(int year, Comparator<Student> studentComparator){
+		Schedule schedule = new Schedule(year, studentComparator);
+		for (Student student: students
+		) {
 			schedule.addToList(student);
 		}
 		addTeachersToSchedule(schedule);
@@ -54,12 +68,12 @@ public class School {
 		Student jan = new Student("Jan", classicalGuitar, Experience.LOW);
 		Student fatima = new Student("Fatima", classicalGuitar, Experience.EXTREME);
 		Student imane = new Student("Imane", steelString, Experience.MEDIUM);
-		Student mary = new Student("Mary", piano);
-		Student lory = new Student("Lory", bass, Experience.NONE);
+		Student mary = new Student("Mary", classicalGuitar);
+		Student lory = new Student("Lory", bass, Experience.LOW);
 
 		//Students who offer
 		Student piet = new Student("Piet", steelString,new BigDecimal("12"), Experience.HIGH);
-		Student rory = new Student("Rory", bass,new BigDecimal("10"),Experience.MEDIUM);
+		Student rory = new Student("Rory", bass,new BigDecimal("10"),Experience.NONE);
 		Student alex = new Student("Alex", garklein, new BigDecimal("50"),Experience.LOW);
 		Student erik = new Student("Erik", classicalGuitar, new BigDecimal("10"),Experience.HIGH);
 
@@ -74,11 +88,10 @@ public class School {
 		alice.addInstrument(soprano);
 		alice.addInstrument(tenor);
 
-//		jan.setExperience(Experience.EXTREME);
-//		fatima.setExperience(Experience.LOW);
-//		piet.setExperience(Experience.PRO);
-//		imane.setExperience(Experience.MEDIUM);
-//		mary.setExperience(Experience.HIGH);
+		Teacher<Instrument> frank = new Teacher<>("Frank", 1);
+		frank.addInstrument(bass);
+
+
 		addStudentToWaitList(mary);
 		addStudentToWaitList(piet);
 		addStudentToWaitList(jan);
@@ -88,19 +101,15 @@ public class School {
 		addStudentToWaitList(rory);
 		addStudentToWaitList(alex);
 		addStudentToWaitList(erik);
-//
-//		System.out.println(waitList);
-//		waitList.setComparator(new OfferComparator());
-//		System.out.println(waitList);
-////		piet.setOffer(new BigDecimal("12"));
-//		System.out.println(waitList);
-//		waitList.setComparator(new ExperienceComparator());
-//		System.out.println(waitList);
 		addTeachersToList(bob);
 		addTeachersToList(alice);
+		addTeachersToList(frank);
 		System.out.println(teachers);
 		Schedule schedule = createSchedule(2023);
 		System.out.println(schedule);
+		System.out.println(createSchedule(2023,new OfferComparator()));
+
+
 	}
 
 }

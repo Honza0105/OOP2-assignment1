@@ -50,7 +50,7 @@ public class ReorderingPriorityQueue<T> implements Queue<T>{
     @Override
     public Iterator<T> iterator() {
         reorder();
-        return new CustomOrderIterator<T>(this.priorityQueue.iterator());
+        return new CustomOrderIterator<>(this.priorityQueue.iterator());
     }
 
     @Override
@@ -60,6 +60,7 @@ public class ReorderingPriorityQueue<T> implements Queue<T>{
 
     @Override
     public <T1> T1[] toArray(T1[] a) {
+        //noinspection SuspiciousToArrayCall
         return priorityQueue.toArray(a);
     }
 
@@ -143,9 +144,7 @@ public class ReorderingPriorityQueue<T> implements Queue<T>{
         // Sort the elements in the temporary list
         tempList.sort(comparator);
         // Add the elements back to the queue
-        for (T element : tempList) {
-            add(element);
-        }
+        this.addAll(tempList);
     }
 
 }

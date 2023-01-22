@@ -17,6 +17,11 @@ public class Schedule {
 		this.waitList = new ReorderingPriorityQueue<>(new ExperienceComparator());
 		this.students = new HashMap<>();
 	}
+	public Schedule(int year, Comparator<Student> comparator) {
+		this.year = year;
+		this.waitList = new ReorderingPriorityQueue<>(comparator);
+		this.students = new HashMap<>();
+	}
 
 
 	@Override
@@ -70,7 +75,7 @@ public class Schedule {
 		this.students.put(teacher, null);
 	}
 	
-	public void removeTeacher(Teacher<Instrument> teacher) { // Make generic and implement
+	public void removeTeacher(Teacher<Instrument> teacher) {
 		this.students.remove(teacher);
 	}
 	
@@ -82,14 +87,14 @@ public class Schedule {
 	}
 
 	public void matching(){
-		for (Student student: new HashSet<>(waitList)
+		for (Student student: new ArrayList<>(waitList)
 			 ) {
-			inner:
-			for (Teacher teacher: students.keySet()
-				 ) {
-				if (addStudent(teacher,student)){
+			System.out.println(student);
+			for (Teacher<Instrument> teacher : students.keySet()
+			) {
+				if (addStudent(teacher, student)) {
 					withdrawFromList(student);
-					break inner;
+					break;
 				}
 			}
 		}

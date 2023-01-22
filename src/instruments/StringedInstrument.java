@@ -62,10 +62,10 @@ public class StringedInstrument extends Instrument {
 		BigDecimal factor = BigDecimal.ONE;
 		BigDecimal price = new BigDecimal("85.0");
 		if (numberOfStrings > 96) {
-			factor = new BigDecimal((double) parallelStrings / 3d);
+			factor = BigDecimal.valueOf((double) parallelStrings / 3d);
 		}
 		if (parallelStrings >= 3) {
-			factor = factor.multiply(new BigDecimal((double) numberOfStrings / 144d));
+			factor = factor.multiply(BigDecimal.valueOf((double) numberOfStrings / 144d));
 		}
 		if (LocalDate.now().getYear() - dateLastTuned.getYear() > 1) {
 			factor = factor.multiply(new BigDecimal("2.0"));
